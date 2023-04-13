@@ -1,4 +1,5 @@
 import 'package:ride_sharing_app/screens/signup.dart';
+import 'package:ride_sharing_app/screens/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
               color: Color.fromARGB(255, 247, 244, 244)), //<-- SEE HERE
         ),
       ),
-      home: const LoginDriver(),
+      home: const Login(),
     );
   }
 }
