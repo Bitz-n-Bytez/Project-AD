@@ -1,11 +1,10 @@
 import 'package:ride_sharing_app/screens/forget.dart';
 import 'package:ride_sharing_app/screens/signup.dart';
+import 'package:ride_sharing_app/screens/login.dart';
 import 'package:flutter/material.dart';
-
 void main() {
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -27,7 +26,8 @@ class MyApp extends StatelessWidget {
               color: Color.fromARGB(255, 247, 244, 244)), //<-- SEE HERE
         ),
       ),
-      home: const ForgetPass(),
+      
+      home: const Login(),
     );
   }
 }
