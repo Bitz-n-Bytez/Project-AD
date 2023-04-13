@@ -18,6 +18,7 @@ class _LoginDriverState extends State<LoginDriver> {
   void initState() {
     username.text = ""; //innitail value of text field
     password.text = "";
+    confirmPassword.text = "";
     super.initState();
   }
 
