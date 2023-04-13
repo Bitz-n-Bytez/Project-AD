@@ -1,0 +1,31 @@
+{
+    "project_info": {
+        "project_number": "357408896459",
+        "project_id": "utmgo-22f8a",
+        "storage_bucket": "utmgo-22f8a.appspot.com"
+    },
+    "client": [{
+        "client_info": {
+            "mobilesdk_app_id": "1:357408896459:android:2083d132f249ef7126b24e",
+            "android_client_info": {
+                "package_name": "com.example.ride_sharing_app"
+            }
+        },
+        "oauth_client": [{
+            "client_id": "357408896459-2m637jblthl3b1f4i6i4ibg4n931t98d.apps.googleusercontent.com",
+            "client_type": 3
+        }],
+        "api_key": [{
+            "current_key": "AIzaSyAYyxBZhUEuE9n8A5r4NAGA-OC3zul9rzE"
+        }],
+        "services": {
+            "appinvite_service": {
+                "other_platform_oauth_client": [{
+                    "client_id": "357408896459-2m637jblthl3b1f4i6i4ibg4n931t98d.apps.googleusercontent.com",
+                    "client_type": 3
+                }]
+            }
+        }
+    }],
+    "configuration_version": "1"
+}

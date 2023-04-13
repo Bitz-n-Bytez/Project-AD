@@ -30,9 +30,9 @@ class _LoginDriverState extends State<LoginDriver> {
               begin: Alignment.topLeft,
               end: Alignment.bottomCenter,
               colors: <Color>[
-                Color.fromARGB(255, 4, 4, 4),
-                Color.fromARGB(255, 75, 74, 74),
-                Color.fromARGB(255, 167, 167, 165),
+                Color.fromARGB(255, 128, 172, 60),
+                Color.fromARGB(255, 109, 156, 78),
+                Color.fromARGB(255, 162, 202, 143),
               ], // Gradient from https://learnui.design/tools/gradient-generator.html
               tileMode: TileMode.mirror,
             )),
