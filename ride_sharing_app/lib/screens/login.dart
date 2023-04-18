@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ride_sharing_app/screens/signup.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -25,16 +27,20 @@ class _LoginState extends State<Login> {
     return Scaffold(
         body: Container(
             decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("images/bg.jpg"),
+                    opacity: 0.15,
+                    fit: BoxFit.cover),
                 gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                Color.fromARGB(255, 4, 4, 4),
-                Color.fromARGB(255, 75, 74, 74),
-                Color.fromARGB(255, 167, 167, 165),
-              ], // Gradient from https://learnui.design/tools/gradient-generator.html
-              tileMode: TileMode.mirror,
-            )),
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
+                    Color.fromARGB(255, 4, 4, 4),
+                    Color.fromARGB(255, 75, 74, 74),
+                    Color.fromARGB(255, 106, 106, 105),
+                  ], // Gradient from https://learnui.design/tools/gradient-generator.html
+                  tileMode: TileMode.mirror,
+                )),
             child: Center(
               child: SingleChildScrollView(
                 child: Column(
@@ -78,6 +84,27 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                           )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 35),
+                      child: SizedBox(
+                          child: CupertinoButton.filled(
+                              child: const FittedBox(
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignUpDriver()));
+                              })),
                     ),
                   ],
                 ),

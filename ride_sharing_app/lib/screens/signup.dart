@@ -1,13 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ride_sharing_app/screens/forget.dart';
+import 'package:ride_sharing_app/screens/login.dart';
 
-class LoginDriver extends StatefulWidget {
-  const LoginDriver({super.key});
+class SignUpDriver extends StatefulWidget {
+  const SignUpDriver({super.key});
 
   @override
-  State<LoginDriver> createState() => _LoginDriverState();
+  State<SignUpDriver> createState() => _SignUpDriverState();
 }
 
-class _LoginDriverState extends State<LoginDriver> {
+class _SignUpDriverState extends State<SignUpDriver> {
   bool _isHidden = true;
 
   TextEditingController username = TextEditingController();
@@ -27,16 +30,20 @@ class _LoginDriverState extends State<LoginDriver> {
     return Scaffold(
         body: Container(
             decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("images/bg.jpg"),
+                    opacity: 0.15,
+                    fit: BoxFit.cover),
                 gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
-              colors: <Color>[
-                Color.fromARGB(255, 128, 172, 60),
-                Color.fromARGB(255, 109, 156, 78),
-                Color.fromARGB(255, 162, 202, 143),
-              ], // Gradient from https://learnui.design/tools/gradient-generator.html
-              tileMode: TileMode.mirror,
-            )),
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
+                    Color.fromARGB(255, 4, 4, 4),
+                    Color.fromARGB(255, 75, 74, 74),
+                    Color.fromARGB(255, 106, 106, 105),
+                  ], // Gradient from https://learnui.design/tools/gradient-generator.html
+                  tileMode: TileMode.mirror,
+                )),
             child: Center(
               child: SingleChildScrollView(
                 child: Column(
@@ -104,6 +111,47 @@ class _LoginDriverState extends State<LoginDriver> {
                               ),
                             ),
                           )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 35),
+                      child: SizedBox(
+                          child: CupertinoButton.filled(
+                              child: const FittedBox(
+                                child: Text(
+                                  'Register',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Login()));
+                              })),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      child: SizedBox(
+                          child: CupertinoButton.filled(
+                              child: const FittedBox(
+                                child: Text(
+                                  'Forget Password',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ForgetPass()));
+                              })),
                     ),
                   ],
                 ),
