@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ride_sharing_app/screens/signup.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+
+import 'forget.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -29,7 +32,7 @@ class _LoginState extends State<Login> {
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("images/bg.jpg"),
-                    opacity: 0.15,
+                    opacity: 0.1,
                     fit: BoxFit.cover),
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -86,15 +89,14 @@ class _LoginState extends State<Login> {
                           )),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 35),
+                      padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
                       child: SizedBox(
                           child: CupertinoButton.filled(
                               child: const FittedBox(
                                 child: Text(
                                   'Login',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 20),
                                 ),
                               ),
@@ -106,6 +108,39 @@ class _LoginState extends State<Login> {
                                             const SignUpDriver()));
                               })),
                     ),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
+                        child: TextButton(
+                          child: const Text(
+                            "Forget Password",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: "Dubai",
+                                fontSize: 14),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ForgetPass()));
+                          },
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 0),
+                        child: SignInButton(
+                          Buttons.Google,
+                          text: "Sign in with Google",
+                          onPressed: () {},
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: SignInButton(
+                          Buttons.FacebookNew,
+                          text: "Sign in with Facebook",
+                          onPressed: () {},
+                        )),
                   ],
                 ),
               ),
