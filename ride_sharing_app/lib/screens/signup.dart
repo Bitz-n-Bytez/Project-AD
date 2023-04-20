@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ride_sharing_app/screens/forget.dart';
 import 'package:ride_sharing_app/screens/login.dart';
 
 class SignUpDriver extends StatefulWidget {
@@ -32,7 +31,7 @@ class _SignUpDriverState extends State<SignUpDriver> {
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("images/bg.jpg"),
-                    opacity: 0.15,
+                    opacity: 0.1,
                     fit: BoxFit.cover),
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -121,7 +120,7 @@ class _SignUpDriverState extends State<SignUpDriver> {
                                 child: Text(
                                   'Register',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 20),
                                 ),
                               ),
@@ -130,27 +129,6 @@ class _SignUpDriverState extends State<SignUpDriver> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => const Login()));
-                              })),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
-                      child: SizedBox(
-                          child: CupertinoButton.filled(
-                              child: const FittedBox(
-                                child: Text(
-                                  'Forget Password',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 20),
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ForgetPass()));
                               })),
                     ),
                   ],

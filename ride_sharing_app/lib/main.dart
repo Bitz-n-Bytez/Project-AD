@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'UTM Go',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightGreen,
         inputDecorationTheme: const InputDecorationTheme(
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Color.fromARGB(255, 250, 249, 249)),
