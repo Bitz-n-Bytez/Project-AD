@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:quickalert/quickalert.dart';
 import 'login.dart';
 
 class ForgetPass extends StatefulWidget {
@@ -67,17 +68,18 @@ class _ForgetPassState extends State<ForgetPass> {
                           child: CupertinoButton.filled(
                               child: const FittedBox(
                                 child: Text(
-                                  'Register',
+                                  'Get Reset Link',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 20),
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Login()));
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  text: 'Link Sent Successfully!',
+                                );
                               })),
                     ),
                   ],
