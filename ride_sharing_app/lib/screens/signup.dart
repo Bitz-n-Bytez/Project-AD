@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ride_sharing_app/screens/login.dart';
@@ -13,12 +15,16 @@ class _SignUpDriverState extends State<SignUpDriver> {
   bool _isHidden = true;
 
   TextEditingController username = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
 
   @override
   void initState() {
     username.text = ""; //innitail value of text field
+    name.text = "";
+    email.text = "";
     password.text = "";
     confirmPassword.text = "";
     super.initState();
@@ -59,6 +65,36 @@ class _SignUpDriverState extends State<SignUpDriver> {
                             labelText: "Username",
                             icon: Icon(
                               Icons.people,
+                              color: Colors.white,
+                            ), //icon at head of input
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      child: TextField(
+                          controller: name,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 254, 252, 252)),
+                          decoration: const InputDecoration(
+                            labelText: "Name",
+                            icon: Icon(
+                              Icons.account_box_rounded,
+                              color: Colors.white,
+                            ), //icon at head of input
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      child: TextField(
+                          controller: email,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 254, 252, 252)),
+                          decoration: const InputDecoration(
+                            labelText: "Email",
+                            icon: Icon(
+                              Icons.email,
                               color: Colors.white,
                             ), //icon at head of input
                           )),
@@ -125,10 +161,22 @@ class _SignUpDriverState extends State<SignUpDriver> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Login()));
+                                FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: email.text,
+                                        password: password.text)
+                                    .then((value) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Login()));
+                                }).onError((error, stackTrace) {
+                                  QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.error,
+                                    text: 'Check all the details again!',
+                                  );
+                                });
                               })),
                     ),
                   ],

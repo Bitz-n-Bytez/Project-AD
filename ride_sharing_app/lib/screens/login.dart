@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ride_sharing_app/screens/home.dart';
 import 'package:ride_sharing_app/screens/signup.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
@@ -15,12 +18,12 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   bool _isHidden = true;
 
-  TextEditingController username = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
   @override
   void initState() {
-    username.text = ""; //innitail value of text field
+    email.text = ""; //innitail value of text field
     password.text = "";
     super.initState();
   }
@@ -53,11 +56,11 @@ class _LoginState extends State<Login> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 5),
                       child: TextField(
-                          controller: username,
+                          controller: email,
                           style: const TextStyle(
                               color: Color.fromARGB(255, 254, 252, 252)),
                           decoration: const InputDecoration(
-                            labelText: "Username",
+                            labelText: "Email",
                             icon: Icon(
                               Icons.people,
                               color: Colors.white,
@@ -101,15 +104,27 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SignUpDriver()));
+                                FirebaseAuth.instance
+                                    .signInWithEmailAndPassword(
+                                        email: email.text,
+                                        password: password.text)
+                                    .then((value) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomePage()));
+                                }).onError((error, stackTrace) {
+                                  QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.error,
+                                    text: 'Check all the details again!',
+                                  );
+                                });
                               })),
                     ),
                     Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 25),
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: TextButton(
                           child: const Text(
                             "Forget Password",
@@ -126,19 +141,29 @@ class _LoginState extends State<Login> {
                           },
                         )),
                     Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                        child: TextButton(
+                          child: const Text(
+                            "New User? Sign Up now!",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: "Dubai",
+                                fontSize: 14),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SignUpDriver()));
+                          },
+                        )),
+                    Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 0),
                         child: SignInButton(
                           Buttons.Google,
                           text: "Sign in with Google",
-                          onPressed: () {},
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
-                        child: SignInButton(
-                          Buttons.FacebookNew,
-                          text: "Sign in with Facebook",
                           onPressed: () {},
                         )),
                   ],
