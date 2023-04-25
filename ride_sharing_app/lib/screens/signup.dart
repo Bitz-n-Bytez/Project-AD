@@ -26,7 +26,6 @@ class _SignUpDriverState extends State<SignUpDriver> {
     name.text = "";
     email.text = "";
     password.text = "";
-    confirmPassword.text = "";
     super.initState();
   }
 
@@ -114,30 +113,6 @@ class _SignUpDriverState extends State<SignUpDriver> {
                             ), //icon at head of input
                             //prefixIcon: Icon(Icons.people), //you can use prefixIcon property too.
                             labelText: "Password",
-                            suffix: InkWell(
-                              onTap: _togglePasswordView,
-                              child: const Icon(
-                                Icons.visibility,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
-                      child: TextField(
-                          controller: confirmPassword,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 254, 252, 252)),
-                          obscureText: _isHidden,
-                          decoration: InputDecoration(
-                            icon: const Icon(
-                              Icons.lock,
-                              color: Colors.white,
-                            ), //icon at head of input
-                            //prefixIcon: Icon(Icons.people), //you can use prefixIcon property too.
-                            labelText: "Confirm Password",
                             suffix: InkWell(
                               onTap: _togglePasswordView,
                               child: const Icon(
