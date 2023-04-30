@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:ride_sharing_app/screens/home.dart';
 import 'package:ride_sharing_app/screens/signup.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'google_auth.dart';
 import 'forget.dart';
 
 class Login extends StatefulWidget {
@@ -18,6 +21,9 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   bool _isHidden = true;
 
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -27,6 +33,25 @@ class _LoginState extends State<Login> {
     password.text = "";
     super.initState();
   }
+
+  // handleSignIn() async {
+  //   GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  //   GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+  //   final AuthCredential credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth.accessToken,
+  //     idToken: googleAuth.idToken,
+  //   );
+
+  //   final UserCredential authResult =
+  //       await _auth.signInWithCredential(credential);
+
+  //   if (authResult.user != null) {
+  //     // ignore: use_build_context_synchronously
+  //     Navigator.of(context)
+  //         .push(MaterialPageRoute(builder: (context) => const HomePage()));
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +189,19 @@ class _LoginState extends State<Login> {
                         child: SignInButton(
                           Buttons.Google,
                           text: "Sign in with Google",
-                          onPressed: () {},
+                          onPressed: () {
+                            if (GoogleAuth().handleSignIn() != null) {
+                              // ignore: use_build_context_synchronously
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const HomePage()));
+                            } else {
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.error,
+                                text: 'Check your email again!',
+                              );
+                            }
+                          },
                         )),
                   ],
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'login.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,10 +41,11 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: <Widget>[
                     logoWidget("images/logo.png"),
-                    const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                        child: Text("Welcome")),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        child: Text(
+                            "Welcome ${FirebaseAuth.instance.currentUser!.displayName!}")),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
                       child: SizedBox(
@@ -57,6 +59,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               onPressed: () {
+                                GoogleSignIn().signOut();
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
