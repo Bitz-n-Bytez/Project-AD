@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ride_sharing_app/screens/login.dart';
+import 'package:ride_sharing_app/screens/email_verify.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'google_auth.dart';
 
 class SignUpDriver extends StatefulWidget {
   const SignUpDriver({super.key});
@@ -144,7 +146,8 @@ class _SignUpDriverState extends State<SignUpDriver> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const Login()));
+                                          builder: (context) =>
+                                              const EmailVerificationPage()));
                                 }).onError((error, stackTrace) {
                                   QuickAlert.show(
                                     context: context,
@@ -154,6 +157,27 @@ class _SignUpDriverState extends State<SignUpDriver> {
                                 });
                               })),
                     ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 0),
+                        child: SignInButton(
+                          Buttons.Google,
+                          text: "Sign in with Google",
+                          onPressed: () {
+                            if (GoogleAuth().handleSignIn() != null) {
+                              // ignore: use_build_context_synchronously
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const EmailVerificationPage()));
+                            } else {
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.error,
+                                text: 'Check your email again!',
+                              );
+                            }
+                          },
+                        )),
                   ],
                 ),
               ),
