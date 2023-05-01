@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ride_sharing_app/screens/email_verify.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:ride_sharing_app/screens/login.dart';
 import 'google_auth.dart';
 
 class SignUpDriver extends StatefulWidget {
@@ -126,7 +127,7 @@ class _SignUpDriverState extends State<SignUpDriver> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 35),
+                          horizontal: 20, vertical: 30),
                       child: SizedBox(
                           child: CupertinoButton.filled(
                               child: const FittedBox(
@@ -163,19 +164,30 @@ class _SignUpDriverState extends State<SignUpDriver> {
                         child: SignInButton(
                           Buttons.Google,
                           text: "Sign in with Google",
+                          onPressed: () async {
+                            // ignore: use_build_context_synchronously
+                            await GoogleAuth().handleSignIn();
+                            // ignore: use_build_context_synchronously
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const EmailVerificationPage()));
+                          },
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                        child: TextButton(
+                          child: const Text(
+                            "Already have an account? Login",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: "Dubai",
+                                fontSize: 14),
+                          ),
                           onPressed: () {
-                            if (GoogleAuth().handleSignIn() != null) {
-                              // ignore: use_build_context_synchronously
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EmailVerificationPage()));
-                            } else {
-                              QuickAlert.show(
-                                context: context,
-                                type: QuickAlertType.error,
-                                text: 'Check your email again!',
-                              );
-                            }
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Login()));
                           },
                         )),
                   ],

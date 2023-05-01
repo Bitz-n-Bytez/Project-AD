@@ -58,8 +58,9 @@ class _HomePageState extends State<HomePage> {
                                       fontSize: 20),
                                 ),
                               ),
-                              onPressed: () {
-                                GoogleSignIn().signOut();
+                              onPressed: () async {
+                                await GoogleSignIn().signOut();
+                                // ignore: use_build_context_synchronously
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

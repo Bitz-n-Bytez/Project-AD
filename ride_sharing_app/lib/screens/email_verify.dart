@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ride_sharing_app/screens/home.dart';
 import 'package:ride_sharing_app/screens/login.dart';
 
 class EmailVerificationPage extends StatefulWidget {
@@ -35,32 +36,30 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Email Verification'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'A verification email has been sent to your email address. Please verify your email before continuing.',
-              textAlign: TextAlign.center,
+  Widget build(BuildContext context) => isEmailVerified()
+      ? const HomePage()
+      : Scaffold(
+          appBar: AppBar(
+            title: const Text('Email Verification'),
+          ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'A verification email has been sent to your email address. Please verify your email before continuing.',
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Login()));
+                  },
+                  child: const Text('Login Page'),
+                ),
+              ],
             ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () async {
-                await _auth.signOut();
-                // ignore: use_build_context_synchronously
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Login()));
-              },
-              child: const Text('Sign out'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+          ),
+        );
 }
