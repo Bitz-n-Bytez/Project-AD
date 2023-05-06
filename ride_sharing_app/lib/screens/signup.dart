@@ -1,7 +1,10 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:ride_sharing_app/screens/email_verify.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:ride_sharing_app/screens/login.dart';
@@ -22,6 +25,32 @@ class _SignUpDriverState extends State<SignUpDriver> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
+
+  File _documentFile = File('');
+  final picker = ImagePicker();
+
+  Future<void> _pickDocument() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _documentFile = File(pickedFile!.path);
+    });
+  }
+
+  Future<void> _uploadDocument() async {
+    if (_documentFile == null) {
+      // show an error message to the user
+      return;
+    }
+
+    final storage = FirebaseStorage.instance;
+    final reference =
+        storage.ref().child('documents/${DateTime.now().toString()}');
+    final uploadTask = reference.putFile(_documentFile);
+    await uploadTask.whenComplete(() => null);
+
+    final url = await reference.getDownloadURL();
+    // do something with the download URL (e.g. store it in Firebase Firestore)
+  }
 
   @override
   void initState() {
@@ -55,6 +84,11 @@ class _SignUpDriverState extends State<SignUpDriver> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
+                    if (_documentFile != null)
+                      Image.file(
+                        _documentFile,
+                        height: 200,
+                      ),
                     logoWidget("images/logo.png"),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -127,6 +161,14 @@ class _SignUpDriverState extends State<SignUpDriver> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      child: ElevatedButton(
+                        onPressed: _pickDocument,
+                        child: const Text('Select Document'),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 30),
                       child: SizedBox(
                           child: CupertinoButton.filled(
@@ -138,8 +180,9 @@ class _SignUpDriverState extends State<SignUpDriver> {
                                       fontSize: 20),
                                 ),
                               ),
-                              onPressed: () {
-                                FirebaseAuth.instance
+                              onPressed: () async {
+                                _uploadDocument;
+                                await FirebaseAuth.instance
                                     .createUserWithEmailAndPassword(
                                         email: email.text,
                                         password: password.text)
