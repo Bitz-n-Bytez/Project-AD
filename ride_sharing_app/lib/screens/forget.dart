@@ -78,7 +78,8 @@ class _ForgetPassState extends State<ForgetPass> {
                                 QuickAlert.show(
                                   context: context,
                                   type: QuickAlertType.success,
-                                  text: 'Link Sent Successfully!',
+                                  text:
+                                      'Link Sent Successfully! Please Check Your Mail.',
                                 );
                               })),
                     ),
