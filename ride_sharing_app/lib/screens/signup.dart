@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,32 +27,6 @@ class _SignUpDriverState extends State<SignUpDriver> {
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
 
-  File _documentFile = File('');
-  final picker = ImagePicker();
-
-  Future<void> _pickDocument() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _documentFile = File(pickedFile!.path);
-    });
-  }
-
-  Future<void> _uploadDocument() async {
-    if (_documentFile == null) {
-      // show an error message to the user
-      return;
-    }
-
-    final storage = FirebaseStorage.instance;
-    final reference =
-        storage.ref().child('documents/${DateTime.now().toString()}');
-    final uploadTask = reference.putFile(_documentFile);
-    await uploadTask.whenComplete(() => null);
-
-    final url = await reference.getDownloadURL();
-    // do something with the download URL (e.g. store it in Firebase Firestore)
-  }
-
   @override
   void initState() {
     username.text = ""; //innitail value of text field
@@ -59,6 +34,33 @@ class _SignUpDriverState extends State<SignUpDriver> {
     email.text = "";
     password.text = "";
     super.initState();
+  }
+
+  File? _document;
+
+  Future<void> _uploadDocument() async {
+    if (_document == null) return;
+
+    final storage = FirebaseStorage.instance;
+    final ref = storage.ref().child('documents').child('my_document.pdf');
+
+    final task = ref.putFile(_document!);
+
+    try {
+      await task;
+      print('Document uploaded successfully');
+    } on FirebaseException catch (e) {
+      print('Error uploading document: $e');
+    }
+  }
+
+  Future<void> _pickDocument() async {
+    final result = await FilePicker.platform.pickFiles(type: FileType.any);
+    if (result != null) {
+      setState(() {
+        _document = File(result.files.single.path!);
+      });
+    }
   }
 
   @override
@@ -84,11 +86,6 @@ class _SignUpDriverState extends State<SignUpDriver> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    if (_documentFile != null)
-                      Image.file(
-                        _documentFile,
-                        height: 200,
-                      ),
                     logoWidget("images/logo.png"),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -164,8 +161,12 @@ class _SignUpDriverState extends State<SignUpDriver> {
                           horizontal: 20, vertical: 5),
                       child: ElevatedButton(
                         onPressed: _pickDocument,
-                        child: const Text('Select Document'),
+                        child: const Text('Upload your driving license'),
                       ),
+                    ),
+                    ElevatedButton(
+                      onPressed: _uploadDocument,
+                      child: Text('Submit'),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -181,7 +182,6 @@ class _SignUpDriverState extends State<SignUpDriver> {
                                 ),
                               ),
                               onPressed: () async {
-                                _uploadDocument;
                                 await FirebaseAuth.instance
                                     .createUserWithEmailAndPassword(
                                         email: email.text,
@@ -201,21 +201,21 @@ class _SignUpDriverState extends State<SignUpDriver> {
                                 });
                               })),
                     ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 0),
-                        child: SignInButton(
-                          Buttons.Google,
-                          text: "Sign in with Google",
-                          onPressed: () async {
-                            // ignore: use_build_context_synchronously
-                            await GoogleAuth().handleSignIn();
-                            // ignore: use_build_context_synchronously
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    const EmailVerificationPage()));
-                          },
-                        )),
+                    // Padding(
+                    //     padding: const EdgeInsets.symmetric(
+                    //         horizontal: 20, vertical: 0),
+                    //     child: SignInButton(
+                    //       Buttons.Google,
+                    //       text: "Sign in with Google",
+                    //       onPressed: () async {
+                    //         // ignore: use_build_context_synchronously
+                    //         await GoogleAuth().handleSignIn();
+                    //         // ignore: use_build_context_synchronously
+                    //         Navigator.of(context).push(MaterialPageRoute(
+                    //             builder: (context) =>
+                    //                 const EmailVerificationPage()));
+                    //       },
+                    //     )),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                         child: TextButton(
