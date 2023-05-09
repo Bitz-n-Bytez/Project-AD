@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'login.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class UserProfile extends StatefulWidget {
+  const UserProfile({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<UserProfile> createState() => _UserProfileState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     super.initState();
