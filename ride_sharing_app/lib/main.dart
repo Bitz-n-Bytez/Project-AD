@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:ride_sharing_app/screens/login.dart';
 import 'package:flutter/material.dart';
 
-import 'login_page.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -13,10 +15,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      debugShowCheckedModeBanner: false,
+      title: 'UTM Go',
+      theme: ThemeData(
+        primarySwatch: Colors.lightGreen,
+        inputDecorationTheme: const InputDecorationTheme(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color.fromARGB(255, 250, 249, 249)),
+          ),
+          hintStyle: TextStyle(
+              color: Color.fromARGB(255, 250, 248, 248)), //<-- SEE HERE
+          labelStyle: TextStyle(
+              color: Color.fromARGB(255, 247, 244, 244)), //<-- SEE HERE
         ),
-        home: LoginPage());
+      ),
+      home: const Login(),
+    );
   }
 }
