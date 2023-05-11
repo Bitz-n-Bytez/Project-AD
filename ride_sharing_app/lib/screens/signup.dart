@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -187,6 +188,12 @@ class _SignUpDriverState extends State<SignUpDriver> {
                                         email: email.text,
                                         password: password.text)
                                     .then((value) {
+                                  FirebaseFirestore.instance
+                                      .collection("users")
+                                      .doc(value.user?.uid)
+                                      .set({
+                                    "email": value.user?.email,
+                                  });
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
