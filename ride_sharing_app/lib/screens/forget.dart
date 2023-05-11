@@ -12,9 +12,6 @@ class ForgetPass extends StatefulWidget {
 class _ForgetPassState extends State<ForgetPass> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
-  TextEditingController username = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController confirmPassword = TextEditingController();
 
   @override
   void dispose() {
@@ -24,8 +21,7 @@ class _ForgetPassState extends State<ForgetPass> {
 
   @override
   void initState() {
-    username.text = ""; //innitail value of text field
-    password.text = "";
+    _emailController.text = "";
     super.initState();
   }
 
@@ -57,7 +53,7 @@ class _ForgetPassState extends State<ForgetPass> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 5),
                       child: TextField(
-                          controller: username,
+                          controller: _emailController,
                           style: const TextStyle(
                               color: Color.fromARGB(255, 254, 252, 252)),
                           decoration: const InputDecoration(
@@ -82,11 +78,21 @@ class _ForgetPassState extends State<ForgetPass> {
                                 ),
                               ),
                               onPressed: () {
-                                QuickAlert.show(
-                                  context: context,
-                                  type: QuickAlertType.success,
-                                  text: 'Link Sent Successfully!',
-                                );
+                                if (!RegExp(
+                                        r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
+                                    .hasMatch(_emailController.text)) {
+                                  QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.error,
+                                    text: 'Please write a valid email!',
+                                  );
+                                } else {
+                                  QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.success,
+                                    text: 'Link Sent Successfully!',
+                                  );
+                                }
                               })),
                     ),
                   ],
