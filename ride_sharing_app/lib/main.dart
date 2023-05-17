@@ -3,6 +3,8 @@ import 'package:ride_sharing_app/screens/home.dart';
 import 'package:ride_sharing_app/screens/driveroffer.dart';
 import 'package:ride_sharing_app/screens/login.dart';
 import 'package:flutter/material.dart';
+import 'package:ride_sharing_app/screens/ride_type_driver.dart';
+import 'package:ride_sharing_app/screens/select_place_rider.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
 
 void main() async {
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
               color: Color.fromARGB(255, 247, 244, 244)), //<-- SEE HERE
         ),
       ),
-      home: const UserProfile(),
+      home: const Login(),
     );
   }
 }

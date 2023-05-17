@@ -41,6 +41,26 @@ class _UserProfileState extends State<UserProfile> {
                       onPressed: () {},
                       child: const Text("Edit Profile",
                           style: TextStyle(color: Colors.black)))),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+                child: SizedBox(
+                    child: CupertinoButton.filled(
+                        child: const FittedBox(
+                          child: Text(
+                            'Logout',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 20),
+                          ),
+                        ),
+                        onPressed: () async {
+                          await GoogleSignIn().signOut();
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Login()));
+                        })),
+              ),
             ],
           ),
         ),
