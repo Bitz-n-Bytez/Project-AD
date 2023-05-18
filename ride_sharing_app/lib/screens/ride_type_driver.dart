@@ -3,8 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RideTypeSelector extends StatefulWidget {
+  const RideTypeSelector({super.key});
+
   @override
-  _RideTypeSelectorState createState() => _RideTypeSelectorState();
+  State<RideTypeSelector> createState() => _RideTypeSelectorState();
 }
 
 class _RideTypeSelectorState extends State<RideTypeSelector> {
