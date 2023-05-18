@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import 'login.dart';
 
 class RiderFrontPage extends StatefulWidget {
   const RiderFrontPage({super.key});
@@ -75,6 +79,26 @@ class _RiderFrontPageState extends State<RiderFrontPage> {
               },
               child: const Text('Request Ride'),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+            child: SizedBox(
+                child: CupertinoButton.filled(
+                    child: const FittedBox(
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400, fontSize: 20),
+                      ),
+                    ),
+                    onPressed: () async {
+                      await GoogleSignIn().signOut();
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Login()));
+                    })),
           ),
         ],
       ),

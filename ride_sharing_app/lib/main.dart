@@ -7,6 +7,8 @@ import 'package:ride_sharing_app/screens/ride_type_driver.dart';
 import 'package:ride_sharing_app/screens/select_place_rider.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
 
+import 'screens/gender.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
