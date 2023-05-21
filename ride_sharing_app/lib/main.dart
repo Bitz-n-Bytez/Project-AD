@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:ride_sharing_app/screens/customer_home.dart';
+import 'package:ride_sharing_app/screens/driver_home.dart';
 import 'package:ride_sharing_app/screens/home.dart';
-import 'package:ride_sharing_app/screens/driveroffer.dart';
+import 'package:ride_sharing_app/screens/requestride_customer.dart';
 import 'package:ride_sharing_app/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:ride_sharing_app/screens/ride_type_driver.dart';
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
               color: Color.fromARGB(255, 247, 244, 244)), //<-- SEE HERE
         ),
       ),
-      home: const DriverOffer(),
+      home: const Login(),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:ride_sharing_app/screens/gender.dart';
+import 'package:ride_sharing_app/screens/requestride_customer.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
 import 'email_verify.dart';
 import 'login.dart';
@@ -49,7 +50,22 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
                         child: Text(
-                            "Welcome Rider ${FirebaseAuth.instance.currentUser!.displayName!}")),
+                          "Welcome Rider ${FirebaseAuth.instance.currentUser!.displayName!}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2.0, // Add letter spacing
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withOpacity(0.5),
+                                offset: const Offset(0, 2),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                        )),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
                       child: SizedBox(
@@ -87,7 +103,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const RideRequestScreen()));
+                                            const RequestRide()));
                               })),
                     ),
                     Padding(
@@ -116,4 +132,13 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
               ),
             )));
   }
+}
+
+Image logoWidget(String imageName) {
+  return Image.asset(
+    imageName,
+    fit: BoxFit.fitWidth,
+    width: 200,
+    height: 200,
+  );
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:ride_sharing_app/screens/gender.dart';
+import 'package:ride_sharing_app/screens/showriderequest.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
 import 'email_verify.dart';
 import 'login.dart';
@@ -49,7 +50,22 @@ class _DriverHomePageState extends State<DriverHomePage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
                         child: Text(
-                            "Welcome Driver ${FirebaseAuth.instance.currentUser!.displayName!}")),
+                          "Welcome Driver ${FirebaseAuth.instance.currentUser!.displayName!}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2.0, // Add letter spacing
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withOpacity(0.5),
+                                offset: const Offset(0, 2),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                        )),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
                       child: SizedBox(
@@ -76,7 +92,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                           child: CupertinoButton.filled(
                               child: const FittedBox(
                                 child: Text(
-                                  'Request Ride',
+                                  'See all ride requests',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 20),
@@ -87,7 +103,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const RideRequestScreen()));
+                                            const ShowRideRequest()));
                               })),
                     ),
                     Padding(
