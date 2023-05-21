@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:ride_sharing_app/screens/car_pool.dart';
+import 'package:ride_sharing_app/screens/solo_ride.dart';
 
-class DriverOffer extends StatefulWidget {
-  const DriverOffer({super.key});
+class RequestRide extends StatefulWidget {
+  const RequestRide({super.key});
 
   @override
-  State<DriverOffer> createState() => _DriverOfferState();
+  State<RequestRide> createState() => _RequestRideState();
 }
 
-class _DriverOfferState extends State<DriverOffer> {
+class _RequestRideState extends State<RequestRide> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
@@ -17,12 +19,14 @@ class _DriverOfferState extends State<DriverOffer> {
   @override
   void dispose() {
     _locationController.dispose();
+    _destinationController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     _locationController.text = "";
+    _destinationController.text = "";
     super.initState();
   }
 
@@ -83,13 +87,23 @@ class _DriverOfferState extends State<DriverOffer> {
                             ))),
                   ),
                   MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SoloRide()));
+                    },
                     color: const Color.fromARGB(255, 179, 236, 209),
                     child: const Text('Request',
                         style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
                   ),
                   MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CarPool()));
+                      },
                       color: const Color.fromARGB(255, 179, 236, 209),
                       child: const Text('Pool',
                           style:
