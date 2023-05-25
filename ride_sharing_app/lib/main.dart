@@ -1,7 +1,19 @@
-import 'package:ride_sharing_app/screens/signup.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:ride_sharing_app/screens/customer_home.dart';
+import 'package:ride_sharing_app/screens/driver_home.dart';
+import 'package:ride_sharing_app/screens/home.dart';
+import 'package:ride_sharing_app/screens/requestride_customer.dart';
+import 'package:ride_sharing_app/screens/login.dart';
 import 'package:flutter/material.dart';
+import 'package:ride_sharing_app/screens/ride_type_driver.dart';
+import 'package:ride_sharing_app/screens/select_place_rider.dart';
+import 'package:ride_sharing_app/screens/user_profile.dart';
 
-void main() {
+import 'screens/gender.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -13,9 +25,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'UTM Go',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightGreen,
         inputDecorationTheme: const InputDecorationTheme(
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Color.fromARGB(255, 250, 249, 249)),
@@ -26,7 +38,7 @@ class MyApp extends StatelessWidget {
               color: Color.fromARGB(255, 247, 244, 244)), //<-- SEE HERE
         ),
       ),
-      home: const LoginDriver(),
+      home: const Login(),
     );
   }
 }
