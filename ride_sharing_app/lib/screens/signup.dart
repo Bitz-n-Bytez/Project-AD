@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -20,6 +21,8 @@ class SignUpDriver extends StatefulWidget {
 
 class _SignUpDriverState extends State<SignUpDriver> {
   bool _isHidden = true;
+  String _userType = 'driver';
+  String? categoryValue;
 
   TextEditingController username = TextEditingController();
   TextEditingController name = TextEditingController();
@@ -159,6 +162,35 @@ class _SignUpDriverState extends State<SignUpDriver> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 5),
+                      child: DropdownButton(
+                        style: const TextStyle(color: Colors.white),
+                        dropdownColor: Colors.lightGreen,
+                        iconSize: 40,
+                        iconEnabledColor: Colors.white,
+                        borderRadius: BorderRadius.circular(20)
+                            .copyWith(topLeft: Radius.circular(0)),
+                        hint: const Text('Select your category',
+                            style: TextStyle(color: Colors.white)),
+                        value: categoryValue,
+                        onChanged: (val) {
+                          setState(() {
+                            categoryValue = val.toString();
+                          });
+                        },
+                        items: const [
+                          DropdownMenuItem(
+                              child: Text(
+                                "Driver",
+                              ),
+                              value: "driver"),
+                          DropdownMenuItem(
+                              child: Text("Rider"), value: "rider"),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
                       child: ElevatedButton(
                         onPressed: _pickDocument,
                         child: const Text('Upload your driving license'),
@@ -166,7 +198,7 @@ class _SignUpDriverState extends State<SignUpDriver> {
                     ),
                     ElevatedButton(
                       onPressed: _uploadDocument,
-                      child: Text('Submit'),
+                      child: const Text('Submit'),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -182,40 +214,51 @@ class _SignUpDriverState extends State<SignUpDriver> {
                                 ),
                               ),
                               onPressed: () async {
-                                await FirebaseAuth.instance
-                                    .createUserWithEmailAndPassword(
-                                        email: email.text,
-                                        password: password.text)
-                                    .then((value) {
+                                final User? user = (await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                            email: email.text.trim(),
+                                            password: password.text.trim())
+                                        .catchError((errMsg) {
+                                  Navigator.pop(context);
+                                  // ignore: use_build_context_synchronously
+                                  QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.error,
+                                    text: 'Error message: $errMsg',
+                                  );
+                                  print("Our Error message: $errMsg");
+                                }))
+                                    .user;
+                                if (user != null) {
+                                  await FirebaseFirestore.instance
+                                      .collection("users")
+                                      .doc(user.uid)
+                                      .set({
+                                        "username": username.text.trim(),
+                                        "name": name.text.trim(),
+                                        "email": email.text.trim(),
+                                        "type": categoryValue
+                                      })
+                                      .then((value) => null)
+                                      .catchError((onError) {});
+                                  // ignore: use_build_context_synchronously
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               const EmailVerificationPage()));
-                                }).onError((error, stackTrace) {
+                                  print("User created successfully");
+                                } else {
+                                  // ignore: use_build_context_synchronously
                                   QuickAlert.show(
                                     context: context,
                                     type: QuickAlertType.error,
-                                    text: 'Check all the details again!',
+                                    text: 'User account creation failed',
                                   );
-                                });
+                                  print("User account creation failed");
+                                }
                               })),
                     ),
-                    // Padding(
-                    //     padding: const EdgeInsets.symmetric(
-                    //         horizontal: 20, vertical: 0),
-                    //     child: SignInButton(
-                    //       Buttons.Google,
-                    //       text: "Sign in with Google",
-                    //       onPressed: () async {
-                    //         // ignore: use_build_context_synchronously
-                    //         await GoogleAuth().handleSignIn();
-                    //         // ignore: use_build_context_synchronously
-                    //         Navigator.of(context).push(MaterialPageRoute(
-                    //             builder: (context) =>
-                    //                 const EmailVerificationPage()));
-                    //       },
-                    //     )),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                         child: TextButton(
