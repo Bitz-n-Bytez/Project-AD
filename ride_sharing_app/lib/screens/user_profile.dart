@@ -41,7 +41,39 @@ class _UserProfileState extends State<UserProfile> {
                       onPressed: () {},
                       child: const Text("Edit Profile",
                           style: TextStyle(color: Colors.black)))),
-            ],
+            ]
+
+
+////MENU
+ListTile(
+
+
+
+leading: Container(
+width: 40,
+height: 40,
+decoration: BoxDecoration(
+borderRadius: BorderRadius.circular(100),
+color: tAccentColor.withOpacity(0.1),
+),
+child: const Icon(LineAwesomeIcons.cog,color:tAccentColor),
+),
+title: Text(tMenu1,style:Theme.of(context).textTheme.bodyText1),
+
+
+trailing: Container(
+  width: 30,
+  height: 30,
+  decoration: BoxDecoration(
+  borderRadius: BorderRadius.circular(100),
+  color: tAccentColor.withOpacity(0.1),
+),
+  child: const Icon(LineAwesomeIcons.cog,color:tAccentColor),
+),
+
+
+
+)
           ),
         ),
       ),
