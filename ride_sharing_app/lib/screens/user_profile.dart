@@ -41,6 +41,7 @@ class _UserProfileState extends State<UserProfile> {
                       onPressed: () {},
                       child: const Text("Edit Profile",
                           style: TextStyle(color: Colors.black)))),
+
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
                 child: SizedBox(
