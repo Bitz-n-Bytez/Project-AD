@@ -107,8 +107,8 @@ class _LoginState extends State<Login> {
                             onPressed: () {
                               FirebaseAuth.instance
                                   .signInWithEmailAndPassword(
-                                      email: email.text,
-                                      password: password.text)
+                                      email: email.text.trim(),
+                                      password: password.text.trim())
                                   .then((value) {
                                 Navigator.push(
                                     context,
