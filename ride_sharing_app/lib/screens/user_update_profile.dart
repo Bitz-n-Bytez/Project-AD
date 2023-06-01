@@ -24,7 +24,6 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         User? user = FirebaseAuth.instance.currentUser;
-        String userId = 'user_id'; // Replace with the actual user ID
         await FirebaseFirestore.instance
             .collection('users')
             .doc(user?.uid)
