@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ride_sharing_app/screens/google_auth.dart';
 import 'login.dart';
+import 'user_update_profile.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -38,7 +39,13 @@ class _UserProfileState extends State<UserProfile> {
               SizedBox(
                   width: 200,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    UserProfileUpdateScreen()));
+                      },
                       child: const Text("Edit Profile",
                           style: TextStyle(color: Colors.black)))),
               Padding(
