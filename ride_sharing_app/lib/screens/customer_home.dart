@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:ride_sharing_app/screens/gender.dart';
 import 'package:ride_sharing_app/screens/requestride_customer.dart';
 import 'package:ride_sharing_app/screens/rider_screen_map.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
+import '../features/chat_page.dart';
 import 'email_verify.dart';
 import 'login.dart';
 
@@ -18,6 +20,8 @@ class CustomerHomePage extends StatefulWidget {
 }
 
 class _CustomerHomePageState extends State<CustomerHomePage> {
+  User? user = FirebaseAuth.instance.currentUser;
+
   @override
   void initState() {
     super.initState();
@@ -85,6 +89,31 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const UserProfile()));
+                              })),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+                      child: SizedBox(
+                          child: CupertinoButton.filled(
+                              child: const FittedBox(
+                                child: Text(
+                                  'Chat with Driver',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatPage(
+                                        senderId: user
+                                            ?.uid, // Replace with the actual rider's ID
+                                        receiverId:
+                                            "iVVqqQjlVicGkLAOMKp1p9FJmBC3",
+                                      ),
+                                    ));
                               })),
                     ),
                     Padding(

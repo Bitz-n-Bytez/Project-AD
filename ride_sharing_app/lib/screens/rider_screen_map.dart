@@ -111,6 +111,7 @@ class _RiderScreenState extends State<RiderScreen> {
       body: Stack(
         children: [
           GoogleMap(
+            mapType: MapType.hybrid,
             onMapCreated: _onMapCreated,
             onTap: _onMapTap,
             initialCameraPosition: CameraPosition(
