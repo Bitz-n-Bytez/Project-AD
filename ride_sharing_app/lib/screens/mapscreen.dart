@@ -4,6 +4,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:ride_sharing_app/screens/customer_home.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -23,6 +25,24 @@ class _MapScreenState extends State<MapScreen> {
   double _estimatedFare = 0;
 
   @override
+  void initState() {
+    super.initState();
+    _setInitialCameraPosition();
+  }
+
+  void _setInitialCameraPosition() {
+    if (_mapController != null) {
+      _mapController!.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target:
+              LatLng(1.4850, 103.7626), // KLG Campus Residence, Johor, Malaysia
+          zoom: 15.0,
+        ),
+      ));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -33,8 +53,9 @@ class _MapScreenState extends State<MapScreen> {
           Expanded(
             child: GoogleMap(
               initialCameraPosition: CameraPosition(
-                target: LatLng(37.7749, -122.4194),
-                zoom: 12.0,
+                target: LatLng(
+                    1.4850, 103.7626), // KLG Campus Residence, Johor, Malaysia
+                zoom: 15.0,
               ),
               onMapCreated: (controller) {
                 setState(() {
@@ -53,14 +74,16 @@ class _MapScreenState extends State<MapScreen> {
               children: [
                 TextField(
                   controller: _pickupController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Pickup Point',
+                    labelStyle: TextStyle(color: Colors.black),
                   ),
                 ),
                 TextField(
                   controller: _destinationController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Destination Point',
+                    labelStyle: TextStyle(color: Colors.black),
                   ),
                 ),
                 ElevatedButton(
@@ -69,7 +92,7 @@ class _MapScreenState extends State<MapScreen> {
                 ),
                 Text('Estimated Distance: $_estimatedDistance km'),
                 Text('Estimated Duration: $_estimatedDuration mins'),
-                Text('Estimated Fare: \$$_estimatedFare'),
+                Text('Estimated Fare: RM $_estimatedFare'),
               ],
             ),
           ),
@@ -180,13 +203,13 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   double _calculateDuration(double distance) {
-    double averageSpeed = 30; // km/h
+    double averageSpeed = 80; // km/h
     double duration = distance / averageSpeed * 60; // minutes
     return duration;
   }
 
   double _calculateFare(double distance) {
-    double ratePerKm = 1.5;
+    double ratePerKm = 1.5; // Rate per kilometer in MYR
     double fare = distance * ratePerKm;
     return fare;
   }
@@ -211,13 +234,28 @@ class _MapScreenState extends State<MapScreen> {
         'userId': FirebaseAuth.instance.currentUser!.uid,
       });
 
+      // ignore: use_build_context_synchronously
+      await QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        text: 'Ride booked successfully!',
+      );
+
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CustomerHomePage(),
+        ),
+      );
+
       // Print the booking details
       print('Ride booked from $_pickupLatLng to $_destinationLatLng');
       print('Pickup Address: $pickupAddress');
       print('Destination Address: $destinationAddress');
       print('Estimated Distance: $_estimatedDistance km');
       print('Estimated Duration: $_estimatedDuration mins');
-      print('Estimated Fare: \$$_estimatedFare');
+      print('Estimated Fare: RM $_estimatedFare');
     }
   }
 }

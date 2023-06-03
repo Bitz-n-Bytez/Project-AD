@@ -18,7 +18,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat Page'),
+        title: const Text('Chat Page'),
       ),
       body: Column(
         children: [
@@ -33,7 +33,7 @@ class _ChatPageState extends State<ChatPage> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
@@ -60,17 +60,18 @@ class _ChatPageState extends State<ChatPage> {
                 Expanded(
                   child: TextField(
                     controller: _messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter your message',
+                    decoration: const InputDecoration(
+                      labelText: "Write a message...",
+                      labelStyle: TextStyle(color: Colors.black),
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
                     _sendMessage();
                   },
-                  child: Text('Send'),
+                  child: const Text('Send'),
                 ),
               ],
             ),
