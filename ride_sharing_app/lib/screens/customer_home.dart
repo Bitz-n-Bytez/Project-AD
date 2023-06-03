@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:ride_sharing_app/screens/gender.dart';
+import 'package:ride_sharing_app/screens/mapscreen.dart';
 import 'package:ride_sharing_app/screens/requestride_customer.dart';
 import 'package:ride_sharing_app/screens/rider_screen_map.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
@@ -132,7 +133,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => RiderScreen()));
+                                        builder: (context) =>
+                                            const MapScreen()));
                               })),
                     ),
                     Padding(
