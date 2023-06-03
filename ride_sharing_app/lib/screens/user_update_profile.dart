@@ -71,7 +71,6 @@ class _UserProfileUpdateScreenState extends State<UserProfileUpdateScreen> {
                     decoration: const InputDecoration(
                       labelText: "Username",
                       labelStyle: TextStyle(color: Colors.black),
-                      fillColor: Colors.black,
                       icon: Icon(
                         Icons.people,
                         color: Color.fromARGB(255, 22, 22, 22),
