@@ -56,7 +56,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
                         child: Text(
-                          "Welcome Rider ${FirebaseAuth.instance.currentUser!.displayName!}",
+                          "Welcome Rider ${FirebaseAuth.instance.currentUser!.email}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
@@ -88,8 +88,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const UserProfile()));
+                                        builder: (context) => UserProfile()));
                               })),
                     ),
                     Padding(

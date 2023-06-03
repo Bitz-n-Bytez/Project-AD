@@ -86,8 +86,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const UserProfile()));
+                                        builder: (context) => UserProfile()));
                               })),
                     ),
                     Padding(
