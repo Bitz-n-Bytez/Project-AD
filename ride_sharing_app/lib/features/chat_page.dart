@@ -18,7 +18,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chat Page'),
+        title: Text('Chat Page'),
       ),
       body: Column(
         children: [
@@ -89,6 +89,14 @@ class _ChatPageState extends State<ChatPage> {
         'message': messageText,
         'timestamp': DateTime.now().toString(),
       });
+
+      FirebaseFirestore.instance.collection('chats').add({
+        'senderId': widget.receiverId,
+        'receiverId': widget.senderId,
+        'message': messageText,
+        'timestamp': DateTime.now().toString(),
+      });
+
       _messageController.clear();
     }
   }
