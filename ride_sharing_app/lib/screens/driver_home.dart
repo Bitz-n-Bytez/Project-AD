@@ -6,6 +6,8 @@ import 'package:quickalert/quickalert.dart';
 import 'package:ride_sharing_app/screens/gender.dart';
 import 'package:ride_sharing_app/screens/showriderequest.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
+import '../features/chat_page.dart';
+import 'driver_ride_request.dart';
 import 'email_verify.dart';
 import 'login.dart';
 
@@ -17,6 +19,8 @@ class DriverHomePage extends StatefulWidget {
 }
 
 class _DriverHomePageState extends State<DriverHomePage> {
+  User? user = FirebaseAuth.instance.currentUser;
+
   @override
   void initState() {
     super.initState();
@@ -50,7 +54,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
                         child: Text(
-                          "Welcome Driver ${FirebaseAuth.instance.currentUser!.displayName!}",
+                          "Welcome Driver ${FirebaseAuth.instance.currentUser!.email}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
@@ -82,8 +86,32 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const UserProfile()));
+                                        builder: (context) => UserProfile()));
+                              })),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+                      child: SizedBox(
+                          child: CupertinoButton.filled(
+                              child: const FittedBox(
+                                child: Text(
+                                  'Chat with Rider',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatPage(
+                                        senderId: user
+                                            ?.uid, // Replace with the actual rider's ID
+                                        receiverId:
+                                            "trnAk35obHaKJSqRY2gSzm7AOGs1",
+                                      ),
+                                    ));
                               })),
                     ),
                     Padding(
@@ -103,7 +131,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const ShowRideRequest()));
+                                            DriverRideRequest()));
                               })),
                     ),
                     Padding(
