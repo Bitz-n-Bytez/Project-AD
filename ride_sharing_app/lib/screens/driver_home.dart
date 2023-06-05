@@ -54,7 +54,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
                         child: Text(
-                          "Welcome Driver ${FirebaseAuth.instance.currentUser!.displayName!}",
+                          "Welcome Driver ${FirebaseAuth.instance.currentUser!.email}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
