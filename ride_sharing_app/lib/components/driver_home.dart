@@ -6,8 +6,8 @@ import 'package:quickalert/quickalert.dart';
 import 'package:ride_sharing_app/screens/gender.dart';
 import 'package:ride_sharing_app/screens/showriderequest.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
-import 'email_verify.dart';
-import 'login.dart';
+import '../screens/email_verify.dart';
+import '../screens/login.dart';
 
 class DriverHomePage extends StatefulWidget {
   const DriverHomePage({super.key});
@@ -19,7 +19,7 @@ class DriverHomePage extends StatefulWidget {
 class _DriverHomePageState extends State<DriverHomePage> {
   @override
   void initState() {
-    super.initState();
+    super.initState();cd
   }
 
   @override
@@ -133,3 +133,4 @@ class _DriverHomePageState extends State<DriverHomePage> {
             )));
   }
 }
+

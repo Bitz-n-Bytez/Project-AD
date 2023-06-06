@@ -7,7 +7,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:ride_sharing_app/screens/login.dart';
 
 import 'customer_home.dart';
-import 'driver_home.dart';
+import '../components/driver_home.dart';
 
 class CarPool extends StatelessWidget {
   const CarPool({key});

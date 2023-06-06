@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ride_sharing_app/screens/customer_home.dart';
-import 'package:ride_sharing_app/screens/driver_home.dart';
+import 'package:ride_sharing_app/components/driver_home.dart';
 import 'package:ride_sharing_app/screens/home.dart';
 import 'package:ride_sharing_app/screens/requestride_customer.dart';
 import 'package:ride_sharing_app/screens/login.dart';

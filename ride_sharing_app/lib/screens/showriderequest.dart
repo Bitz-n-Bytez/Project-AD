@@ -1,13 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:quickalert/quickalert.dart';
 import 'package:ride_sharing_app/screens/login.dart';
-
-import 'customer_home.dart';
-import 'driver_home.dart';
 
 class ShowRideRequest extends StatelessWidget {
   const ShowRideRequest({key});
