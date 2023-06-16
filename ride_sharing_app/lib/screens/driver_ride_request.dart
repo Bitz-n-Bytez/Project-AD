@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:ride_sharing_app/screens/driver_home.dart';
+import 'package:location/location.dart';
 
 class DriverRideRequest extends StatefulWidget {
   @override
@@ -30,6 +32,21 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
     }).catchError((error) {
       // Error occurred while updating status
       print('Failed to update status: $error');
+    });
+  }
+
+  // Function to delete the ride request from Firestore
+  void deleteRideRequest(String requestId) {
+    FirebaseFirestore.instance
+        .collection('rideRequests')
+        .doc(requestId)
+        .delete()
+        .then((value) {
+      // Request deleted successfully
+      print('Request deleted');
+    }).catchError((error) {
+      // Error occurred while deleting the request
+      print('Failed to delete request: $error');
     });
   }
 
@@ -66,7 +83,7 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
 
                 // Define the polyline options
                 final polyline = Polyline(
-                  polylineId: PolylineId('route'),
+                  polylineId: PolylineId(requestId),
                   color: Colors.blue,
                   width: 4,
                   points: [pickupLatLng, destinationLatLng],
@@ -135,6 +152,11 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
                           onPressed: () async {
                             // Accept the ride request
                             updateRideStatus(requestId, 'Accepted');
+
+                            // Connect with the rider
+                            // Perform actions to establish the connection
+                            // Notify the rider
+
                             await QuickAlert.show(
                               context: context,
                               type: QuickAlertType.success,
@@ -152,7 +174,8 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
                         ElevatedButton(
                           onPressed: () async {
                             // Reject the ride request
-                            updateRideStatus(requestId, 'Rejected');
+                            deleteRideRequest(requestId);
+
                             await QuickAlert.show(
                               context: context,
                               type: QuickAlertType.error,
@@ -180,4 +203,42 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
       ),
     );
   }
+}
+
+void updateDriverLocation(double latitude, double longitude) {
+  final userId = FirebaseAuth
+      .instance.currentUser?.uid; // Replace with your driver's user ID
+
+  FirebaseFirestore.instance.collection('drivers').doc(userId).update({
+    'latitude': latitude,
+    'longitude': longitude,
+  }).then((value) {
+    // Location updated successfully
+    print('Driver location updated');
+  }).catchError((error) {
+    // Error occurred while updating location
+    print('Failed to update driver location: $error');
+  });
+}
+
+// Example usage inside the RideStatusPage widget
+final Location location = Location();
+
+// Inside a method or lifecycle callback where you want to update the location
+void updateLocation() async {
+  LocationData? currentLocation;
+
+  try {
+    currentLocation = await location.getLocation();
+  } catch (e) {
+    // Handle location retrieval error
+    print('Error retrieving location: $e');
+    return;
+  }
+
+  final double latitude = currentLocation.latitude!;
+  final double longitude = currentLocation.longitude!;
+
+  // Update the driver's location in Firestore
+  updateDriverLocation(latitude, longitude);
 }
