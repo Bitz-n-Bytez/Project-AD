@@ -294,6 +294,11 @@ class _MapScreenState extends State<MapScreen> {
           'status': 'pending',
         });
 
+        // FirebaseFirestore.instance
+        //     .collection('rideRequests')
+        //     .doc("status")
+        //     .delete();
+
         // ignore: use_build_context_synchronously
         await QuickAlert.show(
           context: context,
