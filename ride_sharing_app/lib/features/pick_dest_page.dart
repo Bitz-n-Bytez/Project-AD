@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'dri_completed_ride.dart';
+
 class PickupDestinationPage extends StatefulWidget {
   final String requestId;
 
@@ -97,7 +99,7 @@ class _PickupDestinationPageState extends State<PickupDestinationPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PickupDestinationPage(
+              builder: (context) => RideCompletionPage(
                 requestId: widget.requestId,
               ),
             ),
