@@ -6,6 +6,8 @@ import 'package:quickalert/quickalert.dart';
 import 'package:ride_sharing_app/screens/driver_home.dart';
 import 'package:location/location.dart';
 
+import '../features/ride_status.dart';
+
 class DriverRideRequest extends StatefulWidget {
   @override
   State<DriverRideRequest> createState() => _DriverRideRequestState();
@@ -165,7 +167,8 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
 
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const DriverHomePage(),
+                                builder: (context) =>
+                                    RideStatusPage(requestId: requestId),
                               ),
                             );
                           },
