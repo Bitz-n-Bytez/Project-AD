@@ -285,6 +285,7 @@ class _MapScreenState extends State<MapScreen> {
 
         await FirebaseFirestore.instance.collection('rideRequests').add({
           'userId': userId,
+          'name': user.displayName,
           'pickup': GeoPoint(_pickupLatLng!.latitude, _pickupLatLng!.longitude),
           'destination': GeoPoint(
               _destinationLatLng!.latitude, _destinationLatLng!.longitude),
