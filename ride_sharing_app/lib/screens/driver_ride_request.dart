@@ -37,21 +37,6 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
     });
   }
 
-  // Function to delete the ride request from Firestore
-  void deleteRideRequest(String requestId) {
-    FirebaseFirestore.instance
-        .collection('rideRequests')
-        .doc(requestId)
-        .delete()
-        .then((value) {
-      // Request deleted successfully
-      print('Request deleted');
-    }).catchError((error) {
-      // Error occurred while deleting the request
-      print('Failed to delete request: $error');
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,8 +44,10 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
         title: Text('Driver Ride Requests'),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream:
-            FirebaseFirestore.instance.collection('rideRequests').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('rideRequests')
+            .where('status', isEqualTo: 'pending')
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final rideRequests = snapshot.data!.docs;
@@ -96,7 +83,7 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
                 return Column(
                   children: [
                     ListTile(
-                      title: Text('User Email: $userId'),
+                      title: Text('User ID: $userId'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -158,6 +145,12 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
                             // Connect with the rider
                             // Perform actions to establish the connection
                             // Notify the rider
+                            FirebaseFirestore.instance
+                                .collection('rideRequests')
+                                .doc(requestId)
+                                .update({
+                              'driverId': FirebaseAuth.instance.currentUser?.uid
+                            });
 
                             await QuickAlert.show(
                               context: context,
@@ -176,8 +169,7 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
                         ),
                         ElevatedButton(
                           onPressed: () async {
-                            // Reject the ride request
-                            deleteRideRequest(requestId);
+                            updateRideStatus(requestId, 'Rejected');
 
                             await QuickAlert.show(
                               context: context,
@@ -208,40 +200,40 @@ class _DriverRideRequestState extends State<DriverRideRequest> {
   }
 }
 
-void updateDriverLocation(double latitude, double longitude) {
-  final userId = FirebaseAuth
-      .instance.currentUser?.uid; // Replace with your driver's user ID
+// void updateDriverLocation(double latitude, double longitude) {
+//   final userId = FirebaseAuth
+//       .instance.currentUser?.uid; // Replace with your driver's user ID
 
-  FirebaseFirestore.instance.collection('drivers').doc(userId).update({
-    'latitude': latitude,
-    'longitude': longitude,
-  }).then((value) {
-    // Location updated successfully
-    print('Driver location updated');
-  }).catchError((error) {
-    // Error occurred while updating location
-    print('Failed to update driver location: $error');
-  });
-}
+//   FirebaseFirestore.instance.collection('drivers').doc(userId).update({
+//     'latitude': latitude,
+//     'longitude': longitude,
+//   }).then((value) {
+//     // Location updated successfully
+//     print('Driver location updated');
+//   }).catchError((error) {
+//     // Error occurred while updating location
+//     print('Failed to update driver location: $error');
+//   });
+// }
 
-// Example usage inside the RideStatusPage widget
-final Location location = Location();
+// // Example usage inside the RideStatusPage widget
+// final Location location = Location();
 
-// Inside a method or lifecycle callback where you want to update the location
-void updateLocation() async {
-  LocationData? currentLocation;
+// // Inside a method or lifecycle callback where you want to update the location
+// void updateLocation() async {
+//   LocationData? currentLocation;
 
-  try {
-    currentLocation = await location.getLocation();
-  } catch (e) {
-    // Handle location retrieval error
-    print('Error retrieving location: $e');
-    return;
-  }
+//   try {
+//     currentLocation = await location.getLocation();
+//   } catch (e) {
+//     // Handle location retrieval error
+//     print('Error retrieving location: $e');
+//     return;
+//   }
 
-  final double latitude = currentLocation.latitude!;
-  final double longitude = currentLocation.longitude!;
+//   final double latitude = currentLocation.latitude!;
+//   final double longitude = currentLocation.longitude!;
 
-  // Update the driver's location in Firestore
-  updateDriverLocation(latitude, longitude);
-}
+//   // Update the driver's location in Firestore
+//   updateDriverLocation(latitude, longitude);
+// }

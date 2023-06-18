@@ -157,7 +157,7 @@ class _RideStatusPageState extends State<RideStatusPage> {
             ),
           );
         },
-        child: Text('Arrived'),
+        child: Text('Ride Started'),
       ),
     );
   }

@@ -15,6 +15,9 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../features/ride_complete.dart';
+import '../features/rider_ride_status.dart';
+
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
 
@@ -283,8 +286,10 @@ class _MapScreenState extends State<MapScreen> {
       if (user != null) {
         String userId = user.uid;
 
-        await FirebaseFirestore.instance.collection('rideRequests').add({
+        DocumentReference rideRequestRef =
+            await FirebaseFirestore.instance.collection('rideRequests').add({
           'userId': userId,
+          'email': user.email,
           'name': user.displayName,
           'pickup': GeoPoint(_pickupLatLng!.latitude, _pickupLatLng!.longitude),
           'destination': GeoPoint(
@@ -295,10 +300,7 @@ class _MapScreenState extends State<MapScreen> {
           'status': 'pending',
         });
 
-        // FirebaseFirestore.instance
-        //     .collection('rideRequests')
-        //     .doc("status")
-        //     .delete();
+        String requestId = rideRequestRef.id; // Get the generated document ID
 
         // ignore: use_build_context_synchronously
         await QuickAlert.show(
@@ -307,9 +309,11 @@ class _MapScreenState extends State<MapScreen> {
           text: 'Request Sent Successfully!',
         );
 
+        // ignore: use_build_context_synchronously
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const CustomerHomePage(),
+            // builder: (context) => RiderRideStatusPage(requestId: requestId),
+            builder: (context) => RiderRideComplete(requestId: requestId),
           ),
         );
       }
