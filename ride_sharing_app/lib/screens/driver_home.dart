@@ -95,31 +95,6 @@ class _DriverHomePageState extends State<DriverHomePage> {
                           child: CupertinoButton.filled(
                               child: const FittedBox(
                                 child: Text(
-                                  'Chat with Rider',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 20),
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ChatPage(
-                                        senderId: user
-                                            ?.uid, // Replace with the actual rider's ID
-                                        receiverId:
-                                            "trnAk35obHaKJSqRY2gSzm7AOGs1",
-                                      ),
-                                    ));
-                              })),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
-                      child: SizedBox(
-                          child: CupertinoButton.filled(
-                              child: const FittedBox(
-                                child: Text(
                                   'See all ride requests',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,

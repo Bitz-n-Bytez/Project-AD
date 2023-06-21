@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dri_completed_ride.dart';
 
 class PickupDestinationPage extends StatefulWidget {
   final String requestId;
@@ -92,12 +93,16 @@ class _PickupDestinationPageState extends State<PickupDestinationPage> {
         },
       ),
       bottomNavigationBar: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
+          await FirebaseFirestore.instance
+              .collection('rideRequests')
+              .doc(widget.requestId)
+              .update({'status': 'completed'});
           // Navigate to a new page to show pickup and destination points
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PickupDestinationPage(
+              builder: (context) => RideCompletionPage(
                 requestId: widget.requestId,
               ),
             ),
