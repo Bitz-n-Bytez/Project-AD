@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
@@ -23,6 +25,11 @@ class _ForgetPassState extends State<ForgetPass> {
   void initState() {
     _emailController.text = "";
     super.initState();
+  }
+
+  Future passwordReset() async {
+    await FirebaseAuth.instance
+        .sendPasswordResetEmail(email: _emailController.text.trim());
   }
 
   @override
@@ -87,6 +94,7 @@ class _ForgetPassState extends State<ForgetPass> {
                                     text: 'Please write a valid email!',
                                   );
                                 } else {
+                                  passwordReset();
                                   QuickAlert.show(
                                     context: context,
                                     type: QuickAlertType.success,
