@@ -29,6 +29,7 @@ class _SignUpDriverState extends State<SignUpDriver> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
+  TextEditingController carNumber = TextEditingController();
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _SignUpDriverState extends State<SignUpDriver> {
     name.text = "";
     email.text = "";
     password.text = "";
+    carNumber.text = "";
     super.initState();
   }
 
@@ -69,217 +71,257 @@ class _SignUpDriverState extends State<SignUpDriver> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("images/bg.jpg"),
-                    opacity: 0.1,
-                    fit: BoxFit.cover),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[
-                    Color.fromARGB(255, 4, 4, 4),
-                    Color.fromARGB(255, 75, 74, 74),
-                    Color.fromARGB(255, 106, 106, 105),
-                  ], // Gradient from https://learnui.design/tools/gradient-generator.html
-                  tileMode: TileMode.mirror,
-                )),
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    logoWidget("images/logo.png"),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
-                      child: TextField(
-                          controller: username,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 254, 252, 252)),
-                          decoration: const InputDecoration(
-                            labelText: "Username",
-                            icon: Icon(
-                              Icons.people,
-                              color: Colors.white,
-                            ), //icon at head of input
-                          )),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/bg.jpg"),
+            opacity: 0.1,
+            fit: BoxFit.cover,
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              Color.fromARGB(255, 4, 4, 4),
+              Color.fromARGB(255, 75, 74, 74),
+              Color.fromARGB(255, 106, 106, 105),
+            ],
+            tileMode: TileMode.mirror,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                logoWidget("images/logo.png"),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: TextField(
+                    controller: username,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 254, 252, 252),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
-                      child: TextField(
-                          controller: name,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 254, 252, 252)),
-                          decoration: const InputDecoration(
-                            labelText: "Name",
-                            icon: Icon(
-                              Icons.account_box_rounded,
-                              color: Colors.white,
-                            ), //icon at head of input
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
-                      child: TextField(
-                          controller: email,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 254, 252, 252)),
-                          decoration: const InputDecoration(
-                            labelText: "Email",
-                            icon: Icon(
-                              Icons.email,
-                              color: Colors.white,
-                            ), //icon at head of input
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
-                      child: TextField(
-                          controller: password,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 254, 252, 252)),
-                          obscureText: _isHidden,
-                          decoration: InputDecoration(
-                            icon: const Icon(
-                              Icons.lock,
-                              color: Colors.white,
-                            ), //icon at head of input
-                            //prefixIcon: Icon(Icons.people), //you can use prefixIcon property too.
-                            labelText: "Password",
-                            suffix: InkWell(
-                              onTap: _togglePasswordView,
-                              child: const Icon(
-                                Icons.visibility,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
-                      child: DropdownButton(
-                        style: const TextStyle(color: Colors.white),
-                        dropdownColor: Colors.lightGreen,
-                        iconSize: 40,
-                        iconEnabledColor: Colors.white,
-                        borderRadius: BorderRadius.circular(20)
-                            .copyWith(topLeft: Radius.circular(0)),
-                        hint: const Text('Select your category',
-                            style: TextStyle(color: Colors.white)),
-                        value: categoryValue,
-                        onChanged: (val) {
-                          setState(() {
-                            categoryValue = val.toString();
-                          });
-                        },
-                        items: const [
-                          DropdownMenuItem(
-                              child: Text(
-                                "Driver",
-                              ),
-                              value: "driver"),
-                          DropdownMenuItem(
-                              child: Text("Rider"), value: "rider"),
-                        ],
+                    decoration: const InputDecoration(
+                      labelText: "Username",
+                      icon: Icon(
+                        Icons.people,
+                        color: Colors.white,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
-                      child: ElevatedButton(
-                        onPressed: _pickDocument,
-                        child: const Text('Upload your driving license'),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: _uploadDocument,
-                      child: const Text('Submit'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 30),
-                      child: SizedBox(
-                          child: CupertinoButton.filled(
-                              child: const FittedBox(
-                                child: Text(
-                                  'Register',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 20),
-                                ),
-                              ),
-                              onPressed: () async {
-                                final User? user = (await FirebaseAuth.instance
-                                        .createUserWithEmailAndPassword(
-                                            email: email.text.trim(),
-                                            password: password.text.trim())
-                                        .catchError((errMsg) {
-                                  Navigator.pop(context);
-                                  // ignore: use_build_context_synchronously
-                                  QuickAlert.show(
-                                    context: context,
-                                    type: QuickAlertType.error,
-                                    text: 'Error message: $errMsg',
-                                  );
-                                  print("Our Error message: $errMsg");
-                                }))
-                                    .user;
-                                if (user != null) {
-                                  await FirebaseFirestore.instance
-                                      .collection("users")
-                                      .doc(user.uid)
-                                      .set({
-                                        "username": username.text.trim(),
-                                        "name": name.text.trim(),
-                                        "email": email.text.trim(),
-                                        "type": categoryValue
-                                      })
-                                      .then((value) => null)
-                                      .catchError((onError) {});
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const EmailVerificationPage()));
-                                  print("User created successfully");
-                                } else {
-                                  // ignore: use_build_context_synchronously
-                                  QuickAlert.show(
-                                    context: context,
-                                    type: QuickAlertType.error,
-                                    text: 'User account creation failed',
-                                  );
-                                  print("User account creation failed");
-                                }
-                              })),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                        child: TextButton(
-                          child: const Text(
-                            "Already have an account? Login",
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontFamily: "Dubai",
-                                fontSize: 14),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Login()));
-                          },
-                        )),
-                  ],
+                  ),
                 ),
-              ),
-            )));
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: TextField(
+                    controller: name,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 254, 252, 252),
+                    ),
+                    decoration: const InputDecoration(
+                      labelText: "Name",
+                      icon: Icon(
+                        Icons.account_box_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: TextField(
+                    controller: email,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 254, 252, 252),
+                    ),
+                    decoration: const InputDecoration(
+                      labelText: "Email",
+                      icon: Icon(
+                        Icons.email,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: TextField(
+                    controller: password,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 254, 252, 252),
+                    ),
+                    obscureText: _isHidden,
+                    decoration: InputDecoration(
+                      icon: const Icon(
+                        Icons.lock,
+                        color: Colors.white,
+                      ),
+                      labelText: "Password",
+                      suffix: InkWell(
+                        onTap: _togglePasswordView,
+                        child: const Icon(
+                          Icons.visibility,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: DropdownButton(
+                    style: const TextStyle(color: Colors.white),
+                    dropdownColor: Colors.lightGreen,
+                    iconSize: 40,
+                    iconEnabledColor: Colors.white,
+                    borderRadius: BorderRadius.circular(20)
+                        .copyWith(topLeft: Radius.circular(0)),
+                    hint: const Text(
+                      'Select your category',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    value: categoryValue,
+                    onChanged: (val) {
+                      setState(() {
+                        categoryValue = val.toString();
+                      });
+                    },
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("Driver"),
+                        value: "driver",
+                      ),
+                      DropdownMenuItem(
+                        child: Text("Rider"),
+                        value: "rider",
+                      ),
+                    ],
+                  ),
+                ),
+                if (categoryValue == 'driver')
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: TextField(
+                      controller: carNumber,
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 254, 252, 252),
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: "Car Number",
+                        icon: Icon(
+                          Icons.directions_car,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: ElevatedButton(
+                    onPressed: _pickDocument,
+                    child: const Text('Upload your driving license'),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: _uploadDocument,
+                  child: const Text('Submit'),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  child: SizedBox(
+                    child: CupertinoButton.filled(
+                      child: const FittedBox(
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      onPressed: () async {
+                        final User? user = (await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                          email: email.text.trim(),
+                          password: password.text.trim(),
+                        )
+                                .catchError((errMsg) {
+                          Navigator.pop(context);
+                          QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.error,
+                            text: 'Error message: $errMsg',
+                          );
+                          print("Our Error message: $errMsg");
+                        }))
+                            .user;
+                        if (user != null) {
+                          await FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(user.uid)
+                              .set({
+                                "username": username.text.trim(),
+                                "name": name.text.trim(),
+                                "email": email.text.trim(),
+                                "type": categoryValue,
+                                "carNumber": carNumber.text.trim(),
+                              })
+                              .then((value) => null)
+                              .catchError((onError) {});
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const EmailVerificationPage(),
+                            ),
+                          );
+                          print("User created successfully");
+                        } else {
+                          QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.error,
+                            text: 'User account creation failed',
+                          );
+                          print("User account creation failed");
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: TextButton(
+                    child: const Text(
+                      "Already have an account? Login",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: "Dubai",
+                        fontSize: 14,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Login(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void _togglePasswordView() {

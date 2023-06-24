@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:ride_sharing_app/features/rider_history.dart';
 import 'package:ride_sharing_app/features/rider_ride_status.dart';
 import 'package:ride_sharing_app/screens/gender.dart';
 import 'package:ride_sharing_app/screens/mapscreen.dart';
@@ -98,7 +99,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                           child: CupertinoButton.filled(
                               child: const FittedBox(
                                 child: Text(
-                                  'Your Ride Status',
+                                  'My Reviews',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 20),
@@ -108,10 +109,9 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            RiderRideStatusPage(
-                                                requestId: FirebaseAuth.instance
-                                                    .currentUser!.uid)));
+                                        builder: (context) => RiderReviewPage(
+                                            riderId: FirebaseAuth
+                                                .instance.currentUser!.uid)));
                               })),
                     ),
                     Padding(
