@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ride_sharing_app/screens/customer_home.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
   final double farePrice;
@@ -44,7 +45,10 @@ class PaymentSuccessPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Perform any additional actions or navigate to another page
-                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CustomerHomePage()));
               },
               child: Text('Close'),
             ),

@@ -313,7 +313,7 @@ class _MapScreenState extends State<MapScreen> {
         Navigator.of(context).push(
           MaterialPageRoute(
             // builder: (context) => RiderRideStatusPage(requestId: requestId),
-            builder: (context) => RiderRideComplete(requestId: requestId),
+            builder: (context) => RiderRideStatusPage(requestId: requestId),
           ),
         );
       }
