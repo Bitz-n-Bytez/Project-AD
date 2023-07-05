@@ -9,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'email_verify.dart';
 import 'google_auth.dart';
 import 'forget.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -43,7 +44,22 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English
+        Locale('es', ''), // Spanish
+        Locale('fr', ''), // French
+        Locale('de', ''), // German
+        Locale('it', ''), // Italian
+        Locale('ja', ''), // Japanese
+        Locale('ko', ''), // Korean
+      ],
+      locale: _getLocale(),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -235,6 +251,27 @@ class _LoginState extends State<Login> {
     setState(() {
       _isHidden = !_isHidden;
     });
+  }
+
+  Locale _getLocale() {
+    switch (_selectedLanguage) {
+      case 'English':
+        return const Locale('en', '');
+      case 'Spanish':
+        return const Locale('es', '');
+      case 'French':
+        return const Locale('fr', '');
+      case 'German':
+        return const Locale('de', '');
+      case 'Italian':
+        return const Locale('it', '');
+      case 'Japanese':
+        return const Locale('ja', '');
+      case 'Korean':
+        return const Locale('ko', '');
+      default:
+        return const Locale('en', '');
+    }
   }
 }
 

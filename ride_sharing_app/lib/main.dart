@@ -1,15 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ride_sharing_app/screens/customer_home.dart';
-import 'package:ride_sharing_app/screens/driver_home.dart';
-import 'package:ride_sharing_app/screens/home.dart';
-import 'package:ride_sharing_app/screens/requestride_customer.dart';
 import 'package:ride_sharing_app/screens/login.dart';
 import 'package:flutter/material.dart';
-import 'package:ride_sharing_app/screens/ride_type_driver.dart';
-import 'package:ride_sharing_app/screens/select_place_rider.dart';
-import 'package:ride_sharing_app/screens/user_profile.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/gender.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,62 +32,43 @@ class MyApp extends StatelessWidget {
               color: Color.fromARGB(255, 247, 244, 244)), //<-- SEE HERE
         ),
       ),
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
-        const Locale('en', ' '), // English
-        const Locale('es', ' '), // Spanish
-        const Locale('ar', ' '), // Arabic
+      supportedLocales: const [
+        Locale('en', ''), // English
+        Locale('es', ''), // Spanish
+        Locale('fr', ''), // French
+        Locale('de', ''), // German
+        Locale('it', ''), // Italian
+        Locale('ja', ''), // Japanese
+        Locale('ko', ''), // Korean
       ],
+      locale: _getLocale(),
       home: const Login(),
     );
   }
 }
 
-// import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-// void main() => runApp(const MyApp());
-
-// class MyApp extends StatefulWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
-
-// class _MyAppState extends State<MyApp> {
-//   late GoogleMapController mapController;
-
-//   final LatLng _center = const LatLng(45.521563, -122.677433);
-
-//   void _onMapCreated(GoogleMapController controller) {
-//     mapController = controller;
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       theme: ThemeData(
-//         useMaterial3: true,
-//         colorSchemeSeed: Colors.green[700],
-//       ),
-//       home: Scaffold(
-//         appBar: AppBar(
-//           title: const Text('Maps Sample App'),
-//           elevation: 2,
-//         ),
-//         body: GoogleMap(
-//           onMapCreated: _onMapCreated,
-//           initialCameraPosition: CameraPosition(
-//             target: _center,
-//             zoom: 11.0,
-//           ),
-//         ),
-//       ),
-//     );
+// Locale _getLocale() {
+//   switch (_selectedLanguage) {
+//     case 'English':
+//       return const Locale('en', '');
+//     case 'Spanish':
+//       return const Locale('es', '');
+//     case 'French':
+//       return const Locale('fr', '');
+//     case 'German':
+//       return const Locale('de', '');
+//     case 'Italian':
+//       return const Locale('it', '');
+//     case 'Japanese':
+//       return const Locale('ja', '');
+//     case 'Korean':
+//       return const Locale('ko', '');
+//     default:
+//       return const Locale('en', '');
 //   }
 // }
