@@ -2,13 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:quickalert/quickalert.dart';
-import 'package:ride_sharing_app/screens/gender.dart';
-import 'package:ride_sharing_app/screens/showriderequest.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
-import '../features/chat_page.dart';
 import 'driver_ride_request.dart';
-import 'email_verify.dart';
 import 'login.dart';
 
 class DriverHomePage extends StatefulWidget {
