@@ -6,6 +6,7 @@ import 'package:ride_sharing_app/features/rider_history.dart';
 import 'package:ride_sharing_app/screens/mapscreen.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
 import 'login.dart';
+import 'rider_carpool_book.dart';
 
 class CustomerHomePage extends StatefulWidget {
   const CustomerHomePage({super.key});
@@ -124,6 +125,26 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const MapScreen()));
+                              })),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+                      child: SizedBox(
+                          child: CupertinoButton.filled(
+                              child: const FittedBox(
+                                child: Text(
+                                  'Carpool',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RiderBookingScreen()));
                               })),
                     ),
                     Padding(
