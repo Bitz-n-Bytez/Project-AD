@@ -1,15 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:ride_sharing_app/screens/customer_home.dart';
-import 'package:ride_sharing_app/screens/driver_home.dart';
-import 'package:ride_sharing_app/screens/home.dart';
-import 'package:ride_sharing_app/screens/requestride_customer.dart';
 import 'package:ride_sharing_app/screens/login.dart';
 import 'package:flutter/material.dart';
-import 'package:ride_sharing_app/screens/ride_type_driver.dart';
-import 'package:ride_sharing_app/screens/select_place_rider.dart';
-import 'package:ride_sharing_app/screens/user_profile.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'screens/gender.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
