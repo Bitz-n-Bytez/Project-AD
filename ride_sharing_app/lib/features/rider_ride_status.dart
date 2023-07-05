@@ -16,62 +16,81 @@ class RiderRideStatusPage extends StatefulWidget {
 }
 
 class _RiderRideStatusPageState extends State<RiderRideStatusPage> {
-  late Stream<DocumentSnapshot> rideRequestStream;
+  late StreamSubscription<DocumentSnapshot> rideRequestSubscription;
   Timer? timer;
-  bool navigateToDetailsPage = false;
-  bool navigateToHomePage = false;
 
   @override
   void initState() {
     super.initState();
-    rideRequestStream = FirebaseFirestore.instance
+    rideRequestSubscription = FirebaseFirestore.instance
         .collection('rideRequests')
         .doc(widget.requestId)
-        .snapshots();
-    timer = Timer.periodic(Duration(seconds: 3), (timer) {
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.exists) {
+        final data = snapshot.data();
+
+        if (data != null) {
+          final status = data['status'] as String?;
+
+          if (status == 'Accepted') {
+            timer?.cancel(); // Stop the timer
+            // Redirect to ride details page
+            QuickAlert.show(
+              context: context,
+              type: QuickAlertType.success,
+              text: 'Ride Request Accepted!',
+            );
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (_) => RideDetailsPage(requestId: widget.requestId),
+              ),
+            );
+          } else if (status == 'Rejected') {
+            timer?.cancel(); // Stop the timer
+            // Redirect to customer home page
+            QuickAlert.show(
+              context: context,
+              type: QuickAlertType.success,
+              text: 'Sorry, your request has been rejected!',
+            );
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (_) => CustomerHomePage(),
+              ),
+            );
+          }
+        }
+      }
+    });
+
+    timer = Timer.periodic(Duration(seconds: 1), (_) {
       checkRideStatus();
     });
   }
 
   @override
   void dispose() {
+    rideRequestSubscription.cancel();
     timer?.cancel();
     super.dispose();
   }
 
-  void checkRideStatus() {
-    final rideRequestSnapshot =
-        rideRequestStream as DocumentSnapshot<Map<String, dynamic>>?;
+  void checkRideStatus() async {
+    final rideRequestSnapshot = await FirebaseFirestore.instance
+        .collection('rideRequests')
+        .doc(widget.requestId)
+        .get();
 
-    if (rideRequestSnapshot != null && rideRequestSnapshot.exists) {
+    if (rideRequestSnapshot.exists) {
       final data = rideRequestSnapshot.data();
 
       if (data != null) {
         final status = data['status'] as String?;
-        final driverId = data['driverId'] as String?;
 
-        if (status == 'Accepted') {
-          timer?.cancel(); // Stop the timer
-          // Redirect to connected page
-          QuickAlert.show(
-            context: context,
-            type: QuickAlertType.success,
-            text: 'Ride Request Accepted!',
-          );
-          setState(() {
-            navigateToDetailsPage = true;
-          });
-        } else if (status == 'Rejected') {
-          timer?.cancel(); // Stop the timer
-          // Redirect to rider home page
-          QuickAlert.show(
-            context: context,
-            type: QuickAlertType.success,
-            text: 'Sorry, your request has been rejected!',
-          );
-          setState(() {
-            navigateToHomePage = true;
-          });
+        if (status == 'pending') {
+          // Show "Searching for drivers" UI
+          setState(() {});
         }
       }
     }
@@ -79,44 +98,19 @@ class _RiderRideStatusPageState extends State<RiderRideStatusPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (navigateToDetailsPage) {
-      return RideDetailsPage(requestId: widget.requestId);
-    }
-
-    if (navigateToHomePage) {
-      return const CustomerHomePage();
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Ride Status'),
       ),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: rideRequestStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data!.exists) {
-            final data = snapshot.data!.data() as Map<String, dynamic>?;
-
-            if (data != null) {
-              final status = data['status'] as String?;
-
-              if (status == 'pending') {
-                return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('Searching for drivers...'),
-                      SizedBox(height: 16),
-                      CircularProgressIndicator(),
-                    ],
-                  ),
-                );
-              }
-            }
-          }
-
-          return Center(child: CircularProgressIndicator());
-        },
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Searching for drivers...'),
+            SizedBox(height: 16),
+            CircularProgressIndicator(),
+          ],
+        ),
       ),
     );
   }

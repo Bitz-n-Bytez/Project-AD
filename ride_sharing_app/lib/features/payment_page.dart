@@ -154,24 +154,6 @@ class _PaymentPageState extends State<PaymentPage> {
           );
         },
       );
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Payment Failed'),
-            content: Text('Sorry, your payment could not be processed.'),
-            actions: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
-        },
-      );
     }
   }
 }

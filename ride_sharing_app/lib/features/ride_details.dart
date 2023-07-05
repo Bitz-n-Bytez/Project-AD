@@ -46,7 +46,7 @@ class _RideDetailsPageState extends State<RideDetailsPage> {
   }
 
   void startTimer() {
-    timer = Timer.periodic(Duration(seconds: 5), (_) {
+    timer = Timer.periodic(Duration(seconds: 1), (_) {
       _checkRideStatus();
     });
   }
@@ -145,12 +145,56 @@ class _RideDetailsPageState extends State<RideDetailsPage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 16),
+                  if (acceptedDriverId != null)
+                    Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: FutureBuilder<DocumentSnapshot>(
+                        future: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(acceptedDriverId)
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+
+                          if (snapshot.hasData) {
+                            final data =
+                                snapshot.data!.data() as Map<String, dynamic>;
+                            final driverName = data['name'] as String?;
+                            final driverEmail = data['email'] as String?;
+                            final carNumber = data['carNumber'] as String?;
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Driver Details',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text('Name: $driverName'),
+                                Text('Email: $driverEmail'),
+                                Text('Car Number: $carNumber'),
+                              ],
+                            );
+                          }
+
+                          return Text('Driver details not found.');
+                        },
+                      ),
+                    ),
+                  SizedBox(height: 16),
                   Padding(
                     padding: EdgeInsets.all(16.0),
                     child: ElevatedButton(
                       onPressed: () {
                         // Perform actions to chat with the driver
-                        if (rideStatus == 'accepted') {
+                        if (rideStatus == 'Accepted') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -174,7 +218,8 @@ class _RideDetailsPageState extends State<RideDetailsPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DriverHistoryPage(),
+                            builder: (context) =>
+                                DriverHistoryPage(driverId: acceptedDriverId),
                           ),
                         );
                       },
@@ -194,6 +239,10 @@ class _RideDetailsPageState extends State<RideDetailsPage> {
 }
 
 class DriverHistoryPage extends StatelessWidget {
+  final String? driverId;
+
+  DriverHistoryPage({required this.driverId});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -201,28 +250,28 @@ class DriverHistoryPage extends StatelessWidget {
         title: Text('Driver History'),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream:
-            FirebaseFirestore.instance.collection('driverReviews').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('driverReviews')
+            .where('driverId', isEqualTo: driverId)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            final driverHistory = snapshot.data!.docs;
+            final driverReviews = snapshot.data!.docs;
 
             return ListView.builder(
-              itemCount: driverHistory.length,
+              itemCount: driverReviews.length,
               itemBuilder: (context, index) {
                 final data =
-                    driverHistory[index].data() as Map<String, dynamic>;
+                    driverReviews[index].data() as Map<String, dynamic>;
 
-                // Display driver history data
                 return ListTile(
-                  title: Text('Some Driver History Data'),
-                  subtitle: Text('Additional details...'),
+                  title: Text(data['review']),
                 );
               },
             );
           }
 
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

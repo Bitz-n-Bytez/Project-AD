@@ -46,7 +46,7 @@ class _RiderRideCompleteState extends State<RiderRideComplete> {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'Review the rider:',
+                    'Review the driver:',
                     style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(height: 8),
