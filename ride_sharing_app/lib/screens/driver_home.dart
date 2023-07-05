@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ride_sharing_app/screens/carpool.dart';
 import 'package:ride_sharing_app/screens/user_profile.dart';
 import 'driver_ride_request.dart';
 import 'login.dart';
@@ -102,6 +103,25 @@ class _DriverHomePageState extends State<DriverHomePage> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DriverRideRequest()));
+                              })),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+                      child: SizedBox(
+                          child: CupertinoButton.filled(
+                              child: const FittedBox(
+                                child: Text(
+                                  'Car Pool',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CarpoolScreen()));
                               })),
                     ),
                     Padding(

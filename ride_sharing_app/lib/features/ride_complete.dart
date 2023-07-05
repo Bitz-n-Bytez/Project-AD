@@ -3,8 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:ride_sharing_app/screens/customer_home.dart';
 import 'package:ride_sharing_app/screens/driver_home.dart';
-
-import 'payment_page.dart';
+import 'new_payment.dart';
 
 class RiderRideComplete extends StatefulWidget {
   final String requestId;
@@ -76,7 +75,7 @@ class _RiderRideCompleteState extends State<RiderRideComplete> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PaymentPage(
+                          builder: (context) => PaymentScreen(
                             farePrice: farePrice ?? 0.0,
                             requestId: widget.requestId,
                           ),

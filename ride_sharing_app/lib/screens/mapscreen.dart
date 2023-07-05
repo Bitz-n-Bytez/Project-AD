@@ -14,8 +14,6 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart' as poly;
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import '../features/ride_complete.dart';
 import '../features/rider_ride_status.dart';
 
 class MapScreen extends StatefulWidget {
